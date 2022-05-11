@@ -11,7 +11,7 @@ db = SQLAlchemy(app)
 #Classe Cadastro de Clientes
 class Clientes(db.Model):
     __tablename__ = "clientes"
-    id = db.Column(db.Integer, primary_key=True)  #id é automatizado por default apenas para database ou pode ser alterado via input(cpf) posteriormente?
+    id = db.Column(db.Integer, primary_key=True)  
     nome = db.Column(db.String(100))
     cpf_cnpj = db.Column(db.String(14))
     endereco = db.Column(db.String(100))
@@ -39,12 +39,12 @@ class Clientes(db.Model):
 #Classe Casos com Processo
 class CasosCom(db.Model):
     __tablename__ = "casos_com_processo"
-    id_caso = db.Column(db.Integer, primary_key=True)  #vincular id a número do processo?
+    id_caso = db.Column(db.Integer, primary_key=True)  
     autor = db.Column(db.String(200))
     reu = db.Column(db.String(200))
     descricao = db.Column(db.String(1000000))
     prazo = db.Column(db.String(10))
-    num_processo = db.Column(db.String(100))     #precisa ou usa id_caso como número do processo?
+    num_processo = db.Column(db.String(100))     
     id_cliente = db.Column(db.Integer, db.ForeignKey('clientes.id'))
 
     def create(self):
@@ -66,7 +66,7 @@ class CasosCom(db.Model):
 #Classe Casos Sem Processo
 class CasosSem(db.Model):
     __tablename__ = "casos_sem_processo"
-    id_caso_sem = db.Column(db.Integer, primary_key=True)  #usar id para este caso ou vincular a outro atributo?
+    id_caso_sem = db.Column(db.Integer, primary_key=True)  
     autor = db.Column(db.String(200))
     reu = db.Column(db.String(200))
     descricao = db.Column(db.String(1000000))
@@ -91,7 +91,7 @@ class CasosSem(db.Model):
 #Processos
 class Processos(db.Model):
     __tablename__ = "processos"
-    id_processos = db.Column(db.Integer, primary_key=True)  #usar id para este caso ou vincular a número do processo?
+    id_processos = db.Column(db.Integer, primary_key=True)  
     lista_prazos = db.Column(db.String(10))
     novo_prazo_sem_cliente = db.Column(db.String(10))
     id_caso_processo = db.Column(db.Integer, db.ForeignKey('casos_com_processo.id_caso'))
@@ -257,7 +257,7 @@ def atualizar_casos_com_por_id(id_caso):
     if data.get('num_processo'):
         get_casos_com.num_processo = data['num_processo']
     if data.get('id_cliente'):
-        get_casos_com.id_cliente = data['id_cliente']    #vínculo ID principal aqui em GET também?
+        get_casos_com.id_cliente = data['id_cliente']    
     db.session.add(get_casos_com)
     db.session.commit()
     casos_com_model = CasosComModel(only=['id_caso', 'autor', 'reu', 'descricao','prazo','num_processo','id_cliente'])
@@ -310,7 +310,7 @@ def atualizar_casos_sem_por_id(id_caso_sem):
     if data.get('prazo'):
         get_casos_sem.prazo = data['prazo']
     if data.get('id_cliente'):
-        get_casos_sem.id_cliente = data['id_cliente']    #vínculo ID principal aqui em GET também?
+        get_casos_sem.id_cliente = data['id_cliente']    
     db.session.add(get_casos_sem)
     db.session.commit()
     casos_sem_model = CasosSemModel(only=['id_caso', 'autor', 'reu', 'descricao','prazo','num_processo','id_cliente'])
@@ -363,7 +363,7 @@ def atualizar_processos_por_id(id_processos):
     if data.get('id_caso_processo'):
         get_processos.id_caso_processo = data['id_caso_processo']
     if data.get('id_cliente'):
-        get_processos.id_cliente = data['id_cliente']    #retiro para fazer o cadastro sem o cliente?
+        get_processos.id_cliente = data['id_cliente']    
     db.session.add(get_processos)
     db.session.commit()
     processos_model = ProcessosModel(only=['id_processos', 'lista_prazos', 'novo_prazo_sem_cliente', 'id_caso_processo', 'id_cliente'])
