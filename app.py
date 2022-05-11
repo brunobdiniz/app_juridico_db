@@ -112,7 +112,7 @@ class Processos(db.Model):
 db.create_all()
 
 #Model Cadastro de Clientes
-class ClientesModel(ModelSchema):      #schema e meta são HTML?
+class ClientesModel(ModelSchema):      
     class Meta(ModelSchema.Meta):
         model = Clientes
         sqla_session = db.session
